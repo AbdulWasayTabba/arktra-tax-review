@@ -1,0 +1,116 @@
+/* Synthetic demo clients. All names and figures are fictional. */
+(function (root) {
+  const LINE_ITEMS = [
+    { key: 'grossReceipts', label: 'Gross receipts', line: '1' },
+    { key: 'cogs', label: 'Cost of goods sold', line: '4' },
+    { key: 'advertising', label: 'Advertising', line: '8' },
+    { key: 'carTruck', label: 'Car & truck expenses', line: '9' },
+    { key: 'contractLabor', label: 'Contract labor', line: '11' },
+    { key: 'depreciation', label: 'Depreciation & §179', line: '13' },
+    { key: 'insurance', label: 'Insurance (business)', line: '15' },
+    { key: 'legalProfessional', label: 'Legal & professional', line: '17' },
+    { key: 'officeExpense', label: 'Office expense', line: '18' },
+    { key: 'rentLease', label: 'Rent / lease', line: '20' },
+    { key: 'supplies', label: 'Supplies', line: '22' },
+    { key: 'travel', label: 'Travel', line: '24a' },
+    { key: 'meals', label: 'Meals', line: '24b' },
+    { key: 'utilities', label: 'Utilities & phone', line: '25' },
+    { key: 'wages', label: 'Wages (employees)', line: '26' },
+    { key: 'otherExpenses', label: 'Other (software, dues)', line: '27a' },
+  ];
+
+  const L = (pairs) => Object.fromEntries(Object.entries(pairs).map(([k, [p, c]]) => [k, { prior: p, current: c }]));
+
+  const PRESETS = {
+    harborPine: {
+      label: 'Harbor & Pine Design Studio',
+      blurb: 'Growing design studio, single-member LLC, profit up ~68%',
+      client: {
+        name: 'Harbor & Pine Design Studio LLC',
+        owner: 'J. Ellis (fictional)',
+        entity: 'Single-member LLC — Schedule C',
+        industry: 'Brand & web design',
+        filingStatus: 'single',
+      },
+      lines: L({
+        grossReceipts: [168000, 262000],
+        cogs: [0, 0],
+        advertising: [6200, 9800],
+        carTruck: [3100, 3400],
+        contractLabor: [28500, 46000],
+        depreciation: [2400, 0],
+        insurance: [2900, 3100],
+        legalProfessional: [3800, 4500],
+        officeExpense: [4100, 5200],
+        rentLease: [0, 0],
+        supplies: [3600, 4300],
+        travel: [4200, 6900],
+        meals: [3900, 6300],
+        utilities: [1800, 2000],
+        wages: [0, 0],
+        otherExpenses: [8500, 10400],
+      }),
+      facts: {
+        equipmentPurchased: 38000,
+        heavyVehicle: false,
+        healthInsurancePremiums: 9600,
+        healthInsuranceDeducted: false,
+        homeOfficeUsed: true,
+        homeOfficeClaimed: false,
+        homeOfficeSqft: 220,
+        retirementPlan: false,
+        contractors1099Count: 4,
+        priorYearTotalTax: 21300,
+        priorYearAgi: 88300,
+        estimatedPaymentsMade: 16000,
+      },
+    },
+    ridgeline: {
+      label: 'Ridgeline Contracting',
+      blurb: 'Residential contractor, married filing jointly, bought a heavy pickup',
+      client: {
+        name: 'Ridgeline Contracting LLC',
+        owner: 'M. & D. Okafor (fictional)',
+        entity: 'Single-member LLC — Schedule C',
+        industry: 'Residential remodeling',
+        filingStatus: 'mfj',
+      },
+      lines: L({
+        grossReceipts: [410000, 455000],
+        cogs: [160000, 205000],
+        advertising: [4800, 5200],
+        carTruck: [9000, 11000],
+        contractLabor: [24000, 31000],
+        depreciation: [14000, 8000],
+        insurance: [12000, 15500],
+        legalProfessional: [3500, 3900],
+        officeExpense: [2100, 2300],
+        rentLease: [9600, 9600],
+        supplies: [6800, 7400],
+        travel: [1200, 1300],
+        meals: [1800, 2200],
+        utilities: [3000, 3200],
+        wages: [62000, 70000],
+        otherExpenses: [5200, 5600],
+      }),
+      facts: {
+        equipmentPurchased: 68000,
+        heavyVehicle: true,
+        healthInsurancePremiums: 0,
+        healthInsuranceDeducted: false,
+        homeOfficeUsed: false,
+        homeOfficeClaimed: false,
+        homeOfficeSqft: 0,
+        retirementPlan: true,
+        contractors1099Count: 6,
+        priorYearTotalTax: 17300,
+        priorYearAgi: 84600,
+        estimatedPaymentsMade: 9000,
+      },
+    },
+  };
+
+  const api = { LINE_ITEMS, PRESETS };
+  if (typeof module !== 'undefined' && module.exports) module.exports = api;
+  else root.TAX_PRESETS = api;
+})(typeof window !== 'undefined' ? window : globalThis);

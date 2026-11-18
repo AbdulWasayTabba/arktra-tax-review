@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tax Planning Review · Arktra</title>
+  <meta name="description" content="A live demo: an n8n + AI workflow that compares a client's prior-year return with current books, finds planning opportunities, cites the authority, and drafts a memo for CPA review.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Kalam:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#workpaper">Skip to the demo</a>
+
+  <header class="top">
+    <div class="wrap top-row">
+      <span class="wordmark" aria-label="Arktra">Arktra</span>
+      <span class="built">Built by Arktra</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero wrap" aria-labelledby="hero-title">
+      <h1 id="hero-title">A first-draft tax planning review that a CPA can check line by line.</h1>
+      <p class="lede">Load a client's prior-year return and current-year books. The workflow compares the two years, spots planning opportunities, attaches the authority for each one, and drafts a memo. Every figure is computed by code, every citation comes from a checked list, and nothing leaves without a reviewer's sign-off.</p>
+      <dl class="legend" aria-label="Tickmark legend">
+        <div><dt class="tick tick-ok" aria-hidden="true">✓</dt><dd>Computed and footed by code, not by the AI</dd></div>
+        <div><dt class="tick tick-cite" aria-hidden="true">§</dt><dd>Authority attached from the approved list</dd></div>
+        <div><dt class="tick tick-q" aria-hidden="true">?</dt><dd>Needs the CPA's judgment before it goes to the client</dd></div>
+      </dl>
+    </section>
+
+    <section id="workpaper" class="workpaper wrap" aria-labelledby="wp-title">
+      <div class="wp-head">
+        <h2 id="wp-title">Client workpaper</h2>
+        <div class="presets" role="tablist" aria-label="Sample clients" id="presetTabs"></div>
+      </div>
+      <p class="synthetic">Synthetic client data. Edit any figure and run the review again.</p>
+
+      <div class="sheet pad">
+        <div class="client-grid" id="clientInfo"></div>
+        <div class="table-scroll">
+          <table class="ledger" id="ledger">
+            <caption class="sr-only">Schedule C line items, 2025 filed and 2026 projected</caption>
+            <thead><tr><th scope="col">Sch. C line</th><th scope="col" class="num">2025 filed</th><th scope="col" class="num">2026 projected</th></tr></thead>
+            <tbody></tbody>
+            <tfoot></tfoot>
+          </table>
+        </div>
+        <fieldset class="facts" id="facts">
+          <legend>Facts from the client interview</legend>
+        </fieldset>
+      </div>
+
+      <div class="run-row">
+        <button class="run" id="runBtn" type="button">Run the review</button>
+        <p class="mode" id="modeNote" role="status"></p>
+      </div>
+
+      <ol class="pipeline" id="pipeline" aria-label="Workflow steps">
+        <li data-step="validate"><span class="n">1</span><span class="t">Validate the input</span></li>
+        <li data-step="variance"><span class="n">2</span><span class="t">Compare 2025 with 2026</span></li>
+        <li data-step="rules"><span class="n">3</span><span class="t">Run planning rules and model an S-corp</span></li>
+        <li data-step="authority"><span class="n">4</span><span class="t">Attach authorities</span></li>
+        <li data-step="ai"><span class="n">5</span><span class="t">AI drafts the narrative</span></li>
+        <li data-step="verify"><span class="n">6</span><span class="t">Check citations and numbers</span></li>
+      </ol>
+    </section>
+
+    <section class="memo-zone wrap" id="memoZone" aria-labelledby="memo-title" aria-live="polite">
+      <h2 id="memo-title" class="sr-only">Draft memo</h2>
+      <div class="empty" id="memoEmpty">
+        <p>The draft memo will appear here once the review runs.</p>
+      </div>
+      <article class="memo sheet" id="memo" hidden></article>
+    </section>
+
+    <section class="how wrap" aria-labelledby="how-title">
+      <h2 id="how-title">How it is built</h2>
+      <div class="how-grid">
+        <div class="how-copy">
+          <p>The workflow runs in <strong>n8n</strong>, behind a single webhook. Five code steps do the deterministic work: validation, year-over-year variance, the planning rules, the sole-prop versus S-corp model with 2026 figures from Rev. Proc. 2025-32, and the authority list.</p>
+          <p>One model call writes the narrative. It sees only the computed figures and the authorities attached to each rule. A final code step removes any citation outside that list, cross-checks every dollar amount the AI wrote against the computed data, and marks each item for CPA review. If the model is unavailable, the memo still renders from the rule engine's own wording.</p>
+        </div>
+        <div class="table-scroll">
+          <table class="map">
+            <caption>What the job post asks for, and where it shows up here</caption>
+            <thead><tr><th scope="col">From the job post</th><th scope="col">In this demo</th></tr></thead>
+            <tbody>
+              <tr><td>Tax return analysis</td><td>2025 filed vs 2026 projected, with material swings flagged</td></tr>
+              <tr><td>Tax planning &amp; strategy</td><td>Rules for depreciation, retirement, health insurance, home office, QBI</td></tr>
+              <tr><td>Tax strategy modeling</td><td>Sole proprietor vs S corporation at three salary levels</td></tr>
+              <tr><td>Business tax planning</td><td>Entity, compensation, deductions and elections in one memo</td></tr>
+              <tr><td>Accounting analysis</td><td>Variance schedule and classification questions for the client</td></tr>
+              <tr><td>Tax research with supporting authority</td><td>Each finding links to the IRC section or IRS publication</td></tr>
+              <tr><td>Human review &amp; quality control</td><td>Citation whitelist, number cross-check, reviewer sign-off</td></tr>
+              <tr><td>Connect AI with APIs and other software</td><td>Webhook API that a practice-management or accounting system can call</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot wrap">
+    <p>Illustrative demo on synthetic data. Not tax advice. Federal only; state taxes are excluded. Output is a draft prepared for review by a licensed professional.</p>
+    <p>Built by Arktra.</p>
+  </footer>
+
+  <script src="presets.js"></script>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
