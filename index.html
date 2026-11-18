@@ -36,14 +36,24 @@
         <h2 id="wp-title">Client workpaper</h2>
         <div class="presets" role="tablist" aria-label="Sample clients" id="presetTabs"></div>
       </div>
-      <p class="synthetic">Synthetic client data. Edit any figure and run the review again.</p>
+      <p class="synthetic">The two sample clients are fictional. Change any figure, or open <strong>Your own numbers</strong> to start from a blank sheet.</p>
 
       <div class="sheet pad">
         <div class="client-grid" id="clientInfo"></div>
+        <div class="sheet-tools">
+          <p class="hint">Every figure is editable: click a number and type. Bring your own data with any CSV, Excel or Google Sheets export, covering 2 to 6 years.</p>
+          <div class="tool-btns">
+            <button type="button" class="tool tool-main" id="importBtn">Add CSV or paste data</button>
+            <button type="button" class="tool" id="addYearBtn">Add an earlier year</button>
+            <button type="button" class="tool" id="tplBtn">Download template</button>
+            <button type="button" class="tool" id="resetBtn">Reset this sheet</button>
+          </div>
+          <p class="import-note" id="importNote" role="status"></p>
+        </div>
         <div class="table-scroll">
           <table class="ledger" id="ledger">
-            <caption class="sr-only">Schedule C line items, 2025 filed and 2026 projected</caption>
-            <thead><tr><th scope="col">Sch. C line</th><th scope="col" class="num">2025 filed</th><th scope="col" class="num">2026 projected</th></tr></thead>
+            <caption class="sr-only">Schedule C line items by year, oldest to newest. The last column is the planning year.</caption>
+            <thead></thead>
             <tbody></tbody>
             <tfoot></tfoot>
           </table>
@@ -108,7 +118,36 @@
     <p>Built by Arktra.</p>
   </footer>
 
+  <dialog id="importDlg" aria-labelledby="imp-title">
+    <form method="dialog" class="imp">
+      <div class="imp-head">
+        <h2 id="imp-title">Add your data</h2>
+        <button type="submit" class="tool" value="cancel" aria-label="Close">Close</button>
+      </div>
+      <p class="imp-lede">Upload a CSV, or paste rows straight from Excel or Google Sheets. Put line items down the side and one column per year, in any order. A P&amp;L export from QuickBooks or Xero works as it is. Totals rows and % columns are skipped automatically.</p>
+      <div class="imp-src">
+        <div>
+          <input type="file" id="csvFile" accept=".csv,.tsv,.txt,text/csv,text/plain" class="sr-only">
+          <label class="tool tool-main" for="csvFile">Choose a CSV file</label>
+          <span class="imp-file" id="impFile"></span>
+        </div>
+        <label for="pasteBox" class="imp-or">or paste here</label>
+        <textarea id="pasteBox" rows="5" placeholder="Account&#9;2024&#9;2025&#9;2026&#10;Sales&#9;90,000&#9;110,000&#9;140,000&#10;Meals &amp; Entertainment&#9;1,200&#9;1,900&#9;2,600"></textarea>
+        <button type="button" class="tool" id="readPaste">Read pasted data</button>
+      </div>
+      <p class="imp-status" id="impStatus" role="status"></p>
+      <div class="imp-preview" id="impPreview" hidden>
+        <div class="table-scroll"><table class="imp-table" id="impTable"></table></div>
+        <div class="imp-actions">
+          <button type="button" class="run" id="applyImport">Use these figures</button>
+          <span class="imp-note">Check the "Goes to" column. Rows with the same destination are added together.</span>
+        </div>
+      </div>
+    </form>
+  </dialog>
+
   <script src="presets.js"></script>
+  <script src="import.js"></script>
   <script src="data.js"></script>
   <script src="app.js"></script>
 </body>
